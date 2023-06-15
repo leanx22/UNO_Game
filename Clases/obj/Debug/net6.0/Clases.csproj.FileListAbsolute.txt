@@ -1,0 +1,12 @@
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\bin\Debug\net6.0\Clases.deps.json
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\bin\Debug\net6.0\Clases.dll
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\bin\Debug\net6.0\Clases.pdb
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\Clases.csproj.AssemblyReference.cache
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\Clases.GeneratedMSBuildEditorConfig.editorconfig
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\Clases.AssemblyInfoInputs.cache
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\Clases.AssemblyInfo.cs
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\Clases.csproj.CoreCompileInputs.cache
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\Clases.dll
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\refint\Clases.dll
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\Clases.pdb
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\Clases\obj\Debug\net6.0\ref\Clases.dll
