@@ -15,6 +15,9 @@ namespace Clases
         private int _partidasGanadas;
         private List<Carta> _cartas;
 
+        public event Action<Carta> OnCartaUsada;
+        public event Action OnTomaCarta;
+
         public Jugador(int id, string nombre, float suerte, int pGanadas)
         {
             this.id = id;
@@ -27,14 +30,34 @@ namespace Clases
         public List<Carta> Cartas { get { return this._cartas; } set { this._cartas = value; } }
         public string Nombre { get { return this._nombre; } }
 
-        public void TomarCarta(int cantidad,Mazo mazo)
+        /// <summary>
+        /// Esta funcion saca una carta del mazo(stack) y la agrega a la lista de cartas del
+        /// jugador
+        /// </summary>
+        /// <param name="cantidad">Cantidad de cartas a tomar del mazo</param>
+        /// <param name="mazo">Mazo de donde tomar la carta</param>
+        public void TomarCarta(int cantidad, Mazo mazo)
         {
             Random rm = new Random();
-            for (int i=0;i<cantidad;i++)
+            for (int i = 0; i < cantidad; i++)
             {
-                if (rm.Next(0, 100) <= (this._suerte*100))
+                if (rm.Next(0, 101) <= (this._suerte * 100))
                 {
-                    this._cartas.Add(new Carta(ColoresDeCarta.Especial, 0, true));
+                    short j;
+                    //Nuevamente al azar, se selecciona una de las 3 cartas especiales.
+                    j = (short)rm.Next(0, 3);
+                    switch (j)
+                    {
+                        case 0: //Carta especial de +2
+                            this._cartas.Add(new Carta(ColoresDeCarta.Especial, 2, true));
+                            break;
+                        case 1: //Carta especial de +4
+                            this._cartas.Add(new Carta(ColoresDeCarta.Especial, 4, true));
+                            break;
+                        case 2: //Carta especial de cambio de color.
+                            this._cartas.Add(new Carta(ColoresDeCarta.Especial, 0, true));
+                            break;
+                    }
                 }
                 else
                 {
@@ -43,7 +66,83 @@ namespace Clases
             }
         }
 
+        public void IniciarTurno(Carta CartaSobreLaMesa)
+        {
+            //Primero recorro todas las cartas en busqueda de
+            //alguna que sea igual en color y valor
+            foreach (Carta c in this._cartas)
+            {
+                if ((c.Valor == CartaSobreLaMesa.Valor) ||
+                    c.Color == CartaSobreLaMesa.Color)
+                {
+                    this._cartas.Remove(c);
+                    OnCartaUsada.Invoke(c);
+                    return;
+                }
+            }
 
+            //Si no encontre ninguna, entonces hago lo mismo buscando especiales.
+            foreach (Carta c in this._cartas)
+            {
+                if (c.Color == ColoresDeCarta.Especial)
+                {
+                    if (c.Valor == 0)//Si es cambio de color
+                    {
+                        //evento, pasar por eventargs el color que quiero
+                    }
+
+                }
+            }
+
+            //En ultima instancia, tomo una carta.
+            OnTomaCarta.Invoke();
+        }
+
+        private ColoresDeCarta ObtenerColorMasRepetidoEnMano()
+        {
+            int rojas = 0;
+            int amarillas = 0;
+            int verdes = 0;
+            int azules = 0;
+            ColoresDeCarta ret;
+
+            foreach (Carta c in this._cartas)
+            {
+                switch (c.Color)
+                {
+                    case ColoresDeCarta.Rojo:
+                        rojas++;
+                        break;
+                    case ColoresDeCarta.Amarillo:
+                        amarillas++;
+                        break;
+                    case ColoresDeCarta.Verde:
+                        verdes++;
+                        break;
+                    case ColoresDeCarta.Azul:
+                        azules++;
+                        break;
+                }
+            }
+
+            if (rojas > amarillas && rojas > verdes && rojas > azules)
+            {
+                ret = ColoresDeCarta.Rojo;
+            }
+            else if (amarillas > verdes && amarillas > azules)
+            {
+                ret = ColoresDeCarta.Amarillo;
+            }
+            else if (verdes > azules)
+            {
+                ret = ColoresDeCarta.Verde;
+            }
+            else
+            {
+                ret = ColoresDeCarta.Azul;
+            }
+            return ret;
+        }
 
         public static Jugador operator +(Jugador j, Carta c)
         {

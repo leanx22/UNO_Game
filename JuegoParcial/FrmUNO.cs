@@ -13,18 +13,24 @@ namespace JuegoParcial
 {
     public partial class FrmUNO : Form
     {
-        private UNO juego;
+        private UNO uno;
         public FrmUNO()
         {
             InitializeComponent();
-            juego = new UNO();
-            juego.OnGameOver += this.JuegoTerminado;
+            uno = new UNO();            
         }
 
         private void FrmUNO_Load(object sender, EventArgs e)
         {
-            MessageBox.Show(juego.ListadoDeJugadores());
-            this.juego.Iniciar();
+            uno.OnGameOver += this.JuegoTerminado;
+            //MessageBox.Show(juego.ListadoDeJugadores());
+
+            Task Juego = Task.Run(this.uno.Jugar);
+            
+            
+
+
+            /* test
             List<Jugador> lista = this.juego.Jugadores;
             foreach (Jugador item in lista)
             {
@@ -35,6 +41,8 @@ namespace JuegoParcial
                 }
             }
             MessageBox.Show(juego.Mazo.ToString());
+            */
+        
         }
 
         private void JuegoTerminado()

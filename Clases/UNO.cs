@@ -14,6 +14,8 @@ namespace Clases
         private Carta _mesa; //Carta actual en la mesa.
 
         public event Action OnGameOver;
+        public event Action OnCambioDeTurno;
+        public event Action OnCartaActualizada;
 
         public UNO()
         {
@@ -24,10 +26,9 @@ namespace Clases
         }
 
         public Mazo Mazo { get { return this._mazo; } }
-
         public List<Jugador> Jugadores { get { return this._listaJugadores; } }
+        public Carta EnMesa { get { return this._mesa; } }
 
-        
 
         public string ListadoDeJugadores()
         {
@@ -40,17 +41,34 @@ namespace Clases
             return sb.ToString();
         }
 
-        public void Iniciar()
+        public void Jugar()
         {
+            Random rm = new Random();
+            Jugador jugador;
+            bool continuar = true;
+
+            //Mezclo las cartas.
             this._mazo.MezclarCartas();
+            
+            //Cada jugador toma 5 cartas
             foreach (Jugador j in this._listaJugadores)
             {
                 j.TomarCarta(5,this._mazo);
             }
 
+            //Primera carta sobre la mesa.
             this._mesa = this._mazo.ObtenerCartaInicial();
 
-            OnGameOver.Invoke();
+            //Selecciono un jugador al azar para ser el primero.
+            jugador = this._listaJugadores[rm.Next(0,this._listaJugadores.Count)];
+
+            do
+            {
+
+
+
+            }
+            while (continuar);
 
         }
 
