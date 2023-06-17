@@ -16,6 +16,9 @@ namespace Clases
         public event Action OnGameOver;
         public event Action OnCambioDeTurno;
         public event Action OnCartaActualizada;
+        public event Action<string> OnAccionRealizada;
+        public event Action<Jugador> OnUNO;
+        public event Action<string> OnNotificacion;
 
         public UNO()
         {
@@ -54,6 +57,13 @@ namespace Clases
             foreach (Jugador j in this._listaJugadores)
             {
                 j.TomarCarta(5,this._mazo);
+                j.OnTomaCarta += (int cant) =>
+                {
+                    j.TomarCarta(cant, this._mazo);
+                    this.OnNotificacion.Invoke(j.Nombre+" tomo +"+cant+" carta!");
+                };
+                j.OnCartaEspecial += this.CartaEspecialHandler;
+                j.OnCartaUsada += this.CartaUsadaHandler;
             }
 
             //Primera carta sobre la mesa.
@@ -62,14 +72,44 @@ namespace Clases
             //Selecciono un jugador al azar para ser el primero.
             jugador = this._listaJugadores[rm.Next(0,this._listaJugadores.Count)];
 
+            int indice = 0;
             do
-            {
+            {               
+                jugador = this._listaJugadores[indice];
+                jugador.IniciarTurno(this._mesa);
 
+                if (jugador.Cartas.Count == 1)
+                {
+                    this.OnUNO.Invoke(jugador);
+                }
+                else if (jugador.Cartas.Count == 0)
+                {
+                    this.OnGameOver();//pasar como parametro al ganador o hacer otro evento
+                    continuar = false;
+                }
 
-
+                indice++;
+                if (indice==this._listaJugadores.Count)
+                {
+                    indice = 0;
+                }
+                Thread.Sleep(2000);
             }
             while (continuar);
 
+        }
+
+        private void CartaEspecialHandler(CartaArgs a) //aca pasa algo
+        {
+            this._mesa = new Carta(a.Color,(short)a.Valor,true);
+            this.OnNotificacion.Invoke("Se utilizo una carta especial!");
+        }
+
+        private void CartaUsadaHandler(Carta carta)
+        {
+            this._mesa = carta;
+            this.OnNotificacion.Invoke("Tiraron la carta: " + carta.Color.ToString() +
+                " | "+carta.Valor.ToString());
         }
 
     }

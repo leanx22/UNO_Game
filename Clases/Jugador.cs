@@ -16,7 +16,8 @@ namespace Clases
         private List<Carta> _cartas;
 
         public event Action<Carta> OnCartaUsada;
-        public event Action OnTomaCarta;
+        public event Action<int> OnTomaCarta;
+        public event Action<CartaArgs> OnCartaEspecial;
 
         public Jugador(int id, string nombre, float suerte, int pGanadas)
         {
@@ -68,6 +69,22 @@ namespace Clases
 
         public void IniciarTurno(Carta CartaSobreLaMesa)
         {
+
+            if (CartaSobreLaMesa.Especial)
+            {
+                 if (CartaSobreLaMesa.Valor == 1) //Si es +4
+                {
+                    this.OnTomaCarta.Invoke(4);
+                    return;
+                }
+                else //Si es +2
+                {
+                    this.OnTomaCarta.Invoke(2);
+                    return;
+                }
+
+            }
+
             //Primero recorro todas las cartas en busqueda de
             //alguna que sea igual en color y valor
             foreach (Carta c in this._cartas)
@@ -86,16 +103,29 @@ namespace Clases
             {
                 if (c.Color == ColoresDeCarta.Especial)
                 {
-                    if (c.Valor == 0)//Si es cambio de color
+                    if (c.Valor == 2)//Si es cambio de color
                     {
-                        //evento, pasar por eventargs el color que quiero
+                        OnCartaEspecial.Invoke(new CartaArgs(ObtenerColorMasRepetidoEnMano(), 0));
+                        this._cartas.Remove(c);
+                        return;
                     }
-
+                    else if (c.Valor == 1) //Si es +4
+                    {
+                        OnCartaEspecial.Invoke(new CartaArgs(ColoresDeCarta.Especial, 4));
+                        this._cartas.Remove(c);
+                        return;
+                    }
+                    else //Si es +2
+                    {
+                        OnCartaEspecial.Invoke(new CartaArgs(ColoresDeCarta.Especial, 2));
+                        this._cartas.Remove(c);
+                        return;
+                    }
                 }
             }
 
             //En ultima instancia, tomo una carta.
-            OnTomaCarta.Invoke();
+            OnTomaCarta.Invoke(1);
         }
 
         private ColoresDeCarta ObtenerColorMasRepetidoEnMano()

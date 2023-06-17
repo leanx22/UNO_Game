@@ -23,6 +23,7 @@ namespace JuegoParcial
         private void FrmUNO_Load(object sender, EventArgs e)
         {
             uno.OnGameOver += this.JuegoTerminado;
+            uno.OnNotificacion += this.NuevaNotificacion;
             //MessageBox.Show(juego.ListadoDeJugadores());
 
             Task Juego = Task.Run(this.uno.Jugar);
@@ -43,6 +44,11 @@ namespace JuegoParcial
             MessageBox.Show(juego.Mazo.ToString());
             */
         
+        }
+
+        private void NuevaNotificacion(string msj)
+        {
+            MessageBox.Show(msj);
         }
 
         private void JuegoTerminado()
