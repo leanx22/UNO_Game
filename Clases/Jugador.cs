@@ -44,21 +44,7 @@ namespace Clases
             {
                 if (rm.Next(0, 101) <= (this._suerte * 100))
                 {
-                    short j;
-                    //Nuevamente al azar, se selecciona una de las 3 cartas especiales.
-                    j = (short)rm.Next(0, 3);
-                    switch (j)
-                    {
-                        case 0: //Carta especial de +2
-                            this._cartas.Add(new Carta(ColoresDeCarta.Especial, 2, true));
-                            break;
-                        case 1: //Carta especial de +4
-                            this._cartas.Add(new Carta(ColoresDeCarta.Especial, 4, true));
-                            break;
-                        case 2: //Carta especial de cambio de color.
-                            this._cartas.Add(new Carta(ColoresDeCarta.Especial, 0, true));
-                            break;
-                    }
+                    this._cartas.Add(mazo.GenerarCartaEspecial());
                 }
                 else
                 {
@@ -70,17 +56,16 @@ namespace Clases
         public void IniciarTurno(Carta CartaSobreLaMesa)
         {
 
-            if (CartaSobreLaMesa.Especial)
+            if (CartaSobreLaMesa.Comportamiento != Comportamiento.Normal)
             {
-                 if (CartaSobreLaMesa.Valor == 1) //Si es +4
+                switch (CartaSobreLaMesa.Comportamiento)
                 {
-                    this.OnTomaCarta.Invoke(4);
-                    return;
-                }
-                else //Si es +2
-                {
-                    this.OnTomaCarta.Invoke(2);
-                    return;
+                    case Comportamiento.TomaDos:
+                        this.OnTomaCarta.Invoke(2);
+                        break;
+                    case Comportamiento.TomaCuatro:
+                        this.OnTomaCarta.Invoke(4);
+                        break;
                 }
 
             }
@@ -101,23 +86,23 @@ namespace Clases
             //Si no encontre ninguna, entonces hago lo mismo buscando especiales.
             foreach (Carta c in this._cartas)
             {
-                if (c.Color == ColoresDeCarta.Especial)
+                if (c.Comportamiento != Comportamiento.Normal)
                 {
-                    if (c.Valor == 2)//Si es cambio de color
+                    if (c.Comportamiento==Comportamiento.CambiaColor)//Si es cambio de color
                     {
-                        OnCartaEspecial.Invoke(new CartaArgs(ObtenerColorMasRepetidoEnMano(), 0));
+                        OnCartaEspecial.Invoke(new CartaArgs(ObtenerColorMasRepetidoEnMano(), 0,Comportamiento.CambiaColor));
                         this._cartas.Remove(c);
                         return;
                     }
-                    else if (c.Valor == 1) //Si es +4
+                    else if (c.Comportamiento==Comportamiento.TomaCuatro) //Si es +4
                     {
-                        OnCartaEspecial.Invoke(new CartaArgs(ColoresDeCarta.Especial, 4));
+                        OnCartaEspecial.Invoke(new CartaArgs(ColoresDeCarta.Negro,0,Comportamiento.TomaCuatro));
                         this._cartas.Remove(c);
                         return;
                     }
-                    else //Si es +2
+                    else if(c.Comportamiento==Comportamiento.TomaDos)
                     {
-                        OnCartaEspecial.Invoke(new CartaArgs(ColoresDeCarta.Especial, 2));
+                        OnCartaEspecial.Invoke(new CartaArgs(c.Color, 0,Comportamiento.TomaDos));
                         this._cartas.Remove(c);
                         return;
                     }

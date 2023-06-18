@@ -25,7 +25,7 @@ namespace Clases
             this._mazo = new Mazo();
             this._base = new BBDD();
             this._listaJugadores = _base.ObtenerJugadores();
-            this._mesa = new Carta(ColoresDeCarta.Especial,0,false);
+            this._mesa = new Carta(ColoresDeCarta.Rojo,0,Comportamiento.Normal);
         }
 
         public Mazo Mazo { get { return this._mazo; } }
@@ -99,9 +99,9 @@ namespace Clases
 
         }
 
-        private void CartaEspecialHandler(CartaArgs a) //aca pasa algo
+        private void CartaEspecialHandler(CartaArgs a)
         {
-            this._mesa = new Carta(a.Color,(short)a.Valor,true);
+            this._mesa = new Carta(a.Color,(short)a.Valor,a.Comportamiento);
             this.OnNotificacion.Invoke("Se utilizo una carta especial!");
         }
 

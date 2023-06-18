@@ -10,24 +10,25 @@ namespace Clases
     {
         private ColoresDeCarta _color;
         private short _valor;
-        private bool _esEspecial;
+        private Comportamiento _comportamiento;
 
-        public Carta(ColoresDeCarta color, short valor, bool especial)
+        public Carta(ColoresDeCarta color, short valor, Comportamiento comportamiento)
         {
             this._color = color;
             this._valor = valor;
-            this._esEspecial = especial;
+            this._comportamiento = comportamiento;
         }
 
         public ColoresDeCarta Color { get { return this._color; } }
         public short Valor { get { return this._valor; } }
-        public bool Especial { get { return this._esEspecial; } set { this._esEspecial = value; } }
+        public Comportamiento Comportamiento { get { return this._comportamiento; } set { this._comportamiento = value; } }
 
 
 
         public static bool operator ==(Carta c1, Carta c2)
         {
-            return (c1.Valor == c2.Valor) && (c1.Color == c2.Color);
+            return (c1.Valor == c2.Valor) && (c1.Color == c2.Color) &&
+                (c1._comportamiento == c2._comportamiento);
         }
 
         public static bool operator !=(Carta c1, Carta c2)
@@ -37,7 +38,7 @@ namespace Clases
 
         public override string ToString()
         {
-            return "Color: "+this.Color+" | Valor: "+this.Valor+" | Especial: "+this.Especial;
+            return "Color: "+this.Color+" | Valor: "+this.Valor+" | Comportamiento: "+this.Comportamiento;
         }
 
         public override bool Equals(object? obj)

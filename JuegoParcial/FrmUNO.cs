@@ -24,6 +24,7 @@ namespace JuegoParcial
         {
             uno.OnGameOver += this.JuegoTerminado;
             uno.OnNotificacion += this.NuevaNotificacion;
+            uno.OnUNO += this.UNOhandler;
             //MessageBox.Show(juego.ListadoDeJugadores());
 
             Task Juego = Task.Run(this.uno.Jugar);
@@ -54,6 +55,11 @@ namespace JuegoParcial
         private void JuegoTerminado()
         {
             MessageBox.Show("Evento");
+        }
+
+        private void UNOhandler(Jugador jugador)
+        {
+            MessageBox.Show(jugador.Nombre+" dice UNO.");
         }
 
     }

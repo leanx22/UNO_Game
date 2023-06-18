@@ -10,15 +10,17 @@ namespace Clases
     {
         private ColoresDeCarta color;
         private int valor;
+        private Comportamiento comportamiento;
 
-        public CartaArgs(ColoresDeCarta color, int valor)
+        public CartaArgs(ColoresDeCarta color, int valor, Comportamiento comportamiento)
         {
             this.color = color;
             this.valor = valor;
+            this.comportamiento = comportamiento;
         }
 
         public ColoresDeCarta Color { get { return this.color; } }
         public int Valor { get { return this.valor;} }
-
+        public Comportamiento Comportamiento { get { return this.comportamiento; } }
     }
 }
