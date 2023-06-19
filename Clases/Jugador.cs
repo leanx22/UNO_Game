@@ -15,9 +15,8 @@ namespace Clases
         private int _partidasGanadas;
         private List<Carta> _cartas;
 
-        public event Action<Carta> OnCartaUsada;
-        public event Action<int> OnTomaCarta;
-        public event Action<CartaArgs> OnCartaEspecial;
+        public obtenerCartas OnTomaCarta;
+        public event Action<CartaArgs> OnCartaTirada;
 
         public Jugador(int id, string nombre, float suerte, int pGanadas)
         {
@@ -28,91 +27,44 @@ namespace Clases
             this._cartas = new List<Carta>();
         }
 
-        public List<Carta> Cartas { get { return this._cartas; } set { this._cartas = value; } }
+        public List<Carta> Cartas { get { return this._cartas; } set { this._cartas = value; } }//tal vez only read?
         public string Nombre { get { return this._nombre; } }
+        public float Suerte { get {  return this._suerte; } }
+
+        public bool IniciarTurno(Carta CartaSobreLaMesa)
+        {
+            //Verifico si la carta en mesa necesita una accion especifica del usuario (es decir,
+            //si el comportamiento de la carta NO es normal) y si esta carta ya surgio efecto
+            //en otro jugador.
+            if ((CartaSobreLaMesa.Comportamiento != Comportamiento.Normal) &&
+                (!CartaSobreLaMesa.Usada))      
+            {
+                //Cambio la propiedad a TRUE ya que la carta va a aplicar efecto.
+                CartaSobreLaMesa.Usada = true;
+                //El jugador realiza la accion que corresponda y si debe
+                //perder el turno se hace return, caso contrario se continua con la funcion IniciarTurno.
+                if (RespuestaCartasEspeciales(CartaSobreLaMesa))                
+                return true;
+            }
+
+            //Intento tirar una carta normal, si no se puede entonces intento con alguna especial.
+            if (!IntentarUsarCartaNormal(CartaSobreLaMesa))
+            {
+                //Al ser la ultima opcion, directamente retorno si la funcion pudo o no utilizar
+                //una carta especial.
+                return IntentarUsarCartaEspecial(CartaSobreLaMesa);           
+            }
+
+            return true;
+        }
 
         /// <summary>
-        /// Esta funcion saca una carta del mazo(stack) y la agrega a la lista de cartas del
-        /// jugador
+        /// Esta funcion recorre y cuenta los distintos colores de las cartas en mano del
+        /// jugador.
         /// </summary>
-        /// <param name="cantidad">Cantidad de cartas a tomar del mazo</param>
-        /// <param name="mazo">Mazo de donde tomar la carta</param>
-        public void TomarCarta(int cantidad, Mazo mazo)
-        {
-            Random rm = new Random();
-            for (int i = 0; i < cantidad; i++)
-            {
-                if (rm.Next(0, 101) <= (this._suerte * 100))
-                {
-                    this._cartas.Add(mazo.GenerarCartaEspecial());
-                }
-                else
-                {
-                    this._cartas.Add(mazo.Cartas.Pop());
-                }
-            }
-        }
-
-        public void IniciarTurno(Carta CartaSobreLaMesa)
-        {
-
-            if (CartaSobreLaMesa.Comportamiento != Comportamiento.Normal)
-            {
-                switch (CartaSobreLaMesa.Comportamiento)
-                {
-                    case Comportamiento.TomaDos:
-                        this.OnTomaCarta.Invoke(2);
-                        break;
-                    case Comportamiento.TomaCuatro:
-                        this.OnTomaCarta.Invoke(4);
-                        break;
-                }
-
-            }
-
-            //Primero recorro todas las cartas en busqueda de
-            //alguna que sea igual en color y valor
-            foreach (Carta c in this._cartas)
-            {
-                if ((c.Valor == CartaSobreLaMesa.Valor) ||
-                    c.Color == CartaSobreLaMesa.Color)
-                {
-                    this._cartas.Remove(c);
-                    OnCartaUsada.Invoke(c);
-                    return;
-                }
-            }
-
-            //Si no encontre ninguna, entonces hago lo mismo buscando especiales.
-            foreach (Carta c in this._cartas)
-            {
-                if (c.Comportamiento != Comportamiento.Normal)
-                {
-                    if (c.Comportamiento==Comportamiento.CambiaColor)//Si es cambio de color
-                    {
-                        OnCartaEspecial.Invoke(new CartaArgs(ObtenerColorMasRepetidoEnMano(), 0,Comportamiento.CambiaColor));
-                        this._cartas.Remove(c);
-                        return;
-                    }
-                    else if (c.Comportamiento==Comportamiento.TomaCuatro) //Si es +4
-                    {
-                        OnCartaEspecial.Invoke(new CartaArgs(ColoresDeCarta.Negro,0,Comportamiento.TomaCuatro));
-                        this._cartas.Remove(c);
-                        return;
-                    }
-                    else if(c.Comportamiento==Comportamiento.TomaDos)
-                    {
-                        OnCartaEspecial.Invoke(new CartaArgs(c.Color, 0,Comportamiento.TomaDos));
-                        this._cartas.Remove(c);
-                        return;
-                    }
-                }
-            }
-
-            //En ultima instancia, tomo una carta.
-            OnTomaCarta.Invoke(1);
-        }
-
+        /// <returns>
+        /// Retorna el Color mas repetido en la mano del jugador.
+        /// </returns>
         private ColoresDeCarta ObtenerColorMasRepetidoEnMano()
         {
             int rojas = 0;
@@ -159,10 +111,174 @@ namespace Clases
             return ret;
         }
 
+        /// <summary>
+        /// Esta funcion se encarga de la respuesta del jugador ante una carta especial y
+        /// si debe o no perder el turno.
+        /// </summary>
+        /// <param name="carta">
+        /// Carta que requiera alguna accion del jugador.
+        /// </param>
+        /// <returns>
+        /// Retorna Verdadero si el jugador debe perder el turno, caso contrario
+        /// retornara False.
+        /// </returns>
+        public bool RespuestaCartasEspeciales(Carta carta)
+        {
+            bool ret=false;
+            List<Carta> cartasAagregar = new List<Carta>();
+            switch (carta.Comportamiento) //Segun el comportamiento
+            {
+                case Comportamiento.TomaDos: //Si es un +2
+                    cartasAagregar = this.OnTomaCarta.Invoke(2, this._suerte);
+                    ret = false;
+                break;
+                
+                case Comportamiento.TomaCuatro://Si es un +4
+                    cartasAagregar = this.OnTomaCarta.Invoke(4, this._suerte);
+                    ret = true;
+                break;
+                
+                case Comportamiento.CancelaTurno:
+                    ret = true;
+                break;
+            }
+
+            if (cartasAagregar.Count > 0)
+            {
+                foreach (Carta c in cartasAagregar)
+                {
+                    this._cartas.Add(c);
+                }
+            }
+
+            return ret;
+        }
+        
+        /// <summary>
+        /// Esta funcion busca y utiliza alguna carta NORMAL (numerica) que sea compatible
+        /// con aquella que este en la mesa (ultima carta tirada).
+        /// </summary>
+        /// <param name="cartaEnMesa">
+        /// Carta actual sobre la mesa (ultima carta tirada por el jugador anterior).
+        /// </param>
+        /// <returns>
+        /// Retorna True si se encontro y utilizo una carta, caso contrario retornara false.
+        /// </returns>
+        public bool IntentarUsarCartaNormal(Carta cartaEnMesa)
+        {
+            bool ret = false;
+            Carta cartaAeliminar = new Carta();
+            
+            //Busco en las cartas del jugador alguna que sea compatible con la carta en mesa
+            foreach (Carta c in this._cartas)
+            {
+                if ((c.Valor == cartaEnMesa.Valor && c.Valor >= 0) ||
+                    (c.Color == cartaEnMesa.Color && c.Color != ColoresDeCarta.Negro))
+                {
+                    //Guardo la carta que debo eliminar de la mano del Jugador.
+                    cartaAeliminar = c;
+                    ret = true;
+                    break;
+                }
+            }
+
+            //Elimino la carta de la mano del jugador.
+            if (this._cartas.Contains(cartaAeliminar)&&ret==true)
+            {
+                this._cartas.Remove(cartaAeliminar);
+                //Evento de cuando se tira una carta.
+                OnCartaTirada.Invoke(new CartaArgs(cartaAeliminar.Color, cartaAeliminar.Valor,
+                    cartaAeliminar.Comportamiento, this));
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Esta funcion busca una carta especial en la mano del jugador y utiliza la primera
+        /// que encuentre y sea compatible con el color (si es el caso).
+        /// </summary>
+        /// <param name="cartaEnMesa">
+        /// Carta actual en la mesa (ultima carta tirada por el jugador anterior).
+        /// </param>
+        /// <returns>
+        /// Retorna Verdadero si se utilizo alguna, caso contrario retorna False.
+        /// </returns>
+        public bool IntentarUsarCartaEspecial(Carta cartaEnMesa)
+        {
+            bool ret = false;
+            Carta cartaAEliminar = new Carta();
+
+            //Busco en la mano del jugador
+            foreach (Carta c in this._cartas)
+            {
+                //Comparo los comportamientos, y la  
+                switch (c.Comportamiento)
+                {
+                    case Comportamiento.CambiaColor: //Puede usarse sin importar el color.
+                        this._cartas.Remove(c);
+                        OnCartaTirada.Invoke(new CartaArgs(ObtenerColorMasRepetidoEnMano(),
+                            -1, Comportamiento.CambiaColor, this));
+                        ret = true;
+                        break;
+                    case Comportamiento.TomaCuatro: //Puede usarse sin importar el color.
+                        this._cartas.Remove(c);
+                        OnCartaTirada.Invoke(new CartaArgs(ColoresDeCarta.Negro, -4,
+                            Comportamiento.TomaCuatro, this));
+                        ret = true;
+                        break;
+                    case Comportamiento.TomaDos:
+                        //Verifico que el +2 sea del mismo color que la carta en mesa para usarlo.
+                        if (cartaEnMesa.Color == c.Color) 
+                        {
+                            this._cartas.Remove(c);
+                            OnCartaTirada.Invoke(new CartaArgs(c.Color, -2, Comportamiento.TomaDos,
+                                this));                            
+                            ret = true;
+                        }                       
+                        break;
+                    case Comportamiento.CancelaTurno:
+                        //Verifico que la carta sea del mismo color que la carta en mesa para usarla.
+                        if (cartaEnMesa.Color == c.Color)
+                        {
+                            this._cartas.Remove(c);
+                            OnCartaTirada.Invoke(new CartaArgs(c.Color, -3, Comportamiento.CancelaTurno,
+                                this));                            
+                            ret = true;
+                        }                           
+                        break;
+                }
+
+                if (ret) { break; }
+
+            }
+
+            /*Elimino la carta de la mano del jugador.
+            if (this._cartas.Contains(cartaAEliminar))
+            {
+                this._cartas.Remove(cartaAEliminar);
+            }
+            */
+            return ret;
+        }
+
+
+        /// <summary>
+        /// Esta sobrecarga agrega la carta dada a la mano del jugador.
+        /// </summary>
+        /// <param name="j">
+        /// Jugador al cual se le desea agregar la carta.
+        /// </param>
+        /// <param name="c">
+        /// Carta a agregarle al jugador.
+        /// </param>
+        /// <returns>
+        /// Retorna al jugador actualizado con la nueva carta.
+        /// </returns>
         public static Jugador operator +(Jugador j, Carta c)
         {
-            j._cartas.Add(c);
-            return j;
+           j._cartas.Add(c);
+           return j;
         }
 
         public static Jugador operator -(Jugador j, Carta c)

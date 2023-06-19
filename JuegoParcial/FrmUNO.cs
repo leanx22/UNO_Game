@@ -17,7 +17,7 @@ namespace JuegoParcial
         public FrmUNO()
         {
             InitializeComponent();
-            uno = new UNO();            
+            uno = new UNO();
         }
 
         private void FrmUNO_Load(object sender, EventArgs e)
@@ -28,9 +28,6 @@ namespace JuegoParcial
             //MessageBox.Show(juego.ListadoDeJugadores());
 
             Task Juego = Task.Run(this.uno.Jugar);
-            
-            
-
 
             /* test
             List<Jugador> lista = this.juego.Jugadores;
@@ -44,12 +41,12 @@ namespace JuegoParcial
             }
             MessageBox.Show(juego.Mazo.ToString());
             */
-        
+
         }
 
         private void NuevaNotificacion(string msj)
         {
-            MessageBox.Show(msj);
+            lblEventos.Text=msj;
         }
 
         private void JuegoTerminado()
@@ -59,8 +56,21 @@ namespace JuegoParcial
 
         private void UNOhandler(Jugador jugador)
         {
-            MessageBox.Show(jugador.Nombre+" dice UNO.");
+            lblEventos.Text = jugador.Nombre + " dice UNO.";
         }
 
+        private void ActualizarCartas(Jugador jugador1, Jugador jugador2)
+        {
+            this.lBoxLean.DataSource = null;
+            this.lBoxLean.DataSource = jugador1;
+
+            this.lBoxJuan.DataSource = null;
+            this.lBoxJuan.DataSource = jugador2;
+        }
+
+        private void ActualizarMesa(Carta carta)
+        {
+            this.lblCartaEnMesa.Text = "Carta actual: "+carta.ToString();
+        }
     }
 }

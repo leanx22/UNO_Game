@@ -65,7 +65,7 @@ namespace Clases
                     
                 }
             }
-            catch (Exception ex) //En caso de error
+            catch //En caso de error
             {
                 jugadores = new List<Jugador>();
             }

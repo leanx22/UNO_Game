@@ -7,7 +7,7 @@
 
     public enum Comportamiento
     {
-        Normal,TomaDos,TomaCuatro,CambiaColor,CancelaTurno,CambioDeSentido
+        Normal,TomaDos,TomaCuatro,CambiaColor,CancelaTurno
     }
 
 }

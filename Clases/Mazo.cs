@@ -50,15 +50,37 @@ namespace Clases
             }
         }
 
-        public Carta ObtenerCartaInicial()
+        /// <summary>
+        /// Esta funcion toma la cantidad especificada de cartas del mazo y las retorna en
+        /// forma de lista.
+        /// </summary>
+        /// <param name="cantidad">
+        /// Cantidad de cartas necesarias.
+        /// </param>
+        /// <returns>Lista de cartas.</returns>
+        public List<Carta> ObtenerCarta(int cantidad,float probabilidadEspecial)
         {
-            return this._cartas.Pop();
+            Random rm = new Random();
+            List<Carta> cartas = new List<Carta>();
+            
+            for (int i = 0; i < cantidad; i++)
+            {
+                if (rm.Next(0, 101) <= (probabilidadEspecial * 100))
+                {
+                    cartas.Add(this.GenerarCartaEspecial());
+                }
+                else
+                {
+                    cartas.Add(this._cartas.Pop());
+                }
+            }
+            return cartas;
         }
 
         public Carta GenerarCartaEspecial()
         {
             int cantidad = Enum.GetValues(typeof(Comportamiento)).Length;
-            Carta retorno;
+            Carta retorno = new Carta(ColoresDeCarta.Rojo, -1, Comportamiento.Normal);
             Comportamiento co;
             do
             {
@@ -69,33 +91,31 @@ namespace Clases
             switch (co)
             {
                 case Comportamiento.TomaDos:
-                    retorno = new Carta(ObtenerColorAleatorio(),0,co);
+                    retorno = new Carta(ObtenerColorAleatorio(),-2,co);
                     break;
                 case Comportamiento.TomaCuatro:
-                    retorno = new Carta(ColoresDeCarta.Negro, 0, co);
+                    retorno = new Carta(ColoresDeCarta.Negro, -4, co);
                     break;
                 case Comportamiento.CambiaColor:
-                    retorno = new Carta(ColoresDeCarta.Negro, 0, co);
+                    retorno = new Carta(ColoresDeCarta.Negro, -1, co);
                     break;
                 case Comportamiento.CancelaTurno:
-                    retorno = new Carta(ObtenerColorAleatorio(), 0, co);
+                    retorno = new Carta(ObtenerColorAleatorio(), -3, co);
                     break;
-                case Comportamiento.CambioDeSentido:
-                    retorno = new Carta(ObtenerColorAleatorio(), 0, co);
-                        break;
             }
 
-            return this._cartas.Pop();
+            return retorno;
         }
 
         public ColoresDeCarta ObtenerColorAleatorio()
         {
             int cantidad = Enum.GetValues(typeof(ColoresDeCarta)).Length;
-            
-            int indiceAleatorio = this._random.Next(0, cantidad);
-            
-            ColoresDeCarta color = (ColoresDeCarta)indiceAleatorio;
-
+            ColoresDeCarta color;
+            do
+            {
+                int indiceAleatorio = this._random.Next(0, cantidad);
+                color = (ColoresDeCarta)indiceAleatorio;
+            } while (color==ColoresDeCarta.Negro);
             return color;
         }
 
