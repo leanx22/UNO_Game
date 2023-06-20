@@ -28,19 +28,86 @@
         /// </summary>
         private void InitializeComponent()
         {
+            lblTitulo = new Label();
+            btnNuevaPartida = new Button();
+            btnHistorial = new Button();
+            btnAjustes = new Button();
+            btn_Salir = new Button();
             SuspendLayout();
+            // 
+            // lblTitulo
+            // 
+            lblTitulo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTitulo.Location = new Point(142, 29);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(61, 30);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "UNO";
+            // 
+            // btnNuevaPartida
+            // 
+            btnNuevaPartida.Location = new Point(82, 92);
+            btnNuevaPartida.Name = "btnNuevaPartida";
+            btnNuevaPartida.Size = new Size(182, 34);
+            btnNuevaPartida.TabIndex = 1;
+            btnNuevaPartida.Text = "Nueva partida";
+            btnNuevaPartida.UseVisualStyleBackColor = true;
+            btnNuevaPartida.Click += btnNuevaPartida_Click;
+            // 
+            // btnHistorial
+            // 
+            btnHistorial.Location = new Point(82, 132);
+            btnHistorial.Name = "btnHistorial";
+            btnHistorial.Size = new Size(182, 34);
+            btnHistorial.TabIndex = 2;
+            btnHistorial.Text = "Historial";
+            btnHistorial.UseVisualStyleBackColor = true;
+            btnHistorial.Click += btnHistorial_Click;
+            // 
+            // btnAjustes
+            // 
+            btnAjustes.Location = new Point(82, 172);
+            btnAjustes.Name = "btnAjustes";
+            btnAjustes.Size = new Size(182, 34);
+            btnAjustes.TabIndex = 3;
+            btnAjustes.Text = "Ajustes";
+            btnAjustes.UseVisualStyleBackColor = true;
+            // 
+            // btn_Salir
+            // 
+            btn_Salir.Location = new Point(82, 212);
+            btn_Salir.Name = "btn_Salir";
+            btn_Salir.Size = new Size(182, 34);
+            btn_Salir.TabIndex = 4;
+            btn_Salir.Text = "Salir";
+            btn_Salir.UseVisualStyleBackColor = true;
             // 
             // FrmPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(354, 321);
+            Controls.Add(btn_Salir);
+            Controls.Add(btnAjustes);
+            Controls.Add(btnHistorial);
+            Controls.Add(btnNuevaPartida);
+            Controls.Add(lblTitulo);
+            MinimumSize = new Size(370, 360);
             Name = "FrmPrincipal";
             Text = "Form1";
             Load += FrmPrincipal_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label lblTitulo;
+        private Button btnNuevaPartida;
+        private Button btnHistorial;
+        private Button btnAjustes;
+        private Button btn_Salir;
     }
 }

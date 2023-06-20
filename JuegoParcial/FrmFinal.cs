@@ -14,14 +14,18 @@ namespace JuegoParcial
     public partial class FrmFinal : Form
     {
         EstadisticasDePartida datos;
+        BBDD baseDts;
         public FrmFinal(EstadisticasDePartida datos)
         {
             InitializeComponent();
             this.datos = datos;
+            this.baseDts = new BBDD();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void FrmFinal_Load(object sender, EventArgs e)
         {
+            this.MaximizeBox = false;
             this.lblCantJugadores.Text = "(" + this.datos.CantidadDeJugadores + " jugadores)";
             this.lblGanador.Text = "Ganador: " + this.datos.Ganador;
             this.lblTurnos.Text = "Turnos: " + this.datos.Turnos;
@@ -33,6 +37,7 @@ namespace JuegoParcial
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            baseDts.GuardarPartidaEnHistorial(datos);
             this.Close();
         }
 

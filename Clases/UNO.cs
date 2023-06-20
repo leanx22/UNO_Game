@@ -96,7 +96,7 @@ namespace Clases
                     //Rompo el bucle
                     continuar = false;
                     //Llamo al evento de terminar partida
-                    this._estadisticasDePartida.Ganador = this.JugadorConMenosCartas(this._listaJugadores);
+                    this._estadisticasDePartida.Ganador = this.JugadorConMenosCartas(this._listaJugadores).Nombre;
                     OnGameOver.Invoke(this.JugadorConMenosCartas(this._listaJugadores),
                         this._estadisticasDePartida);
                 }
@@ -125,7 +125,7 @@ namespace Clases
                 else if (jugador.Cartas.Count == 0)
                 {
                     continuar = false;
-                    this._estadisticasDePartida.Ganador = jugador;
+                    this._estadisticasDePartida.Ganador = jugador.Nombre;
                     this.OnGameOver.Invoke(jugador,this._estadisticasDePartida);                    
                 }
                 #endregion

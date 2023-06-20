@@ -26,3 +26,4 @@ A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\JuegoPa
 A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\JuegoParcial\bin\Debug\net6.0-windows\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\JuegoParcial\bin\Debug\net6.0-windows\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\JuegoParcial\obj\Debug\net6.0-windows\JuegoParcial.FrmFinal.resources
+A:\UNIVERSIDAD\PROGRAMACION\PROGRA-LABO II\Guia.Leandro.TP2\JuegoParcial\JuegoParcial\obj\Debug\net6.0-windows\JuegoParcial.FrmHistorial.resources

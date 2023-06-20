@@ -76,6 +76,82 @@ namespace Clases
             return jugadores;
         }
 
+        public List<EstadisticasDePartida> ObtenerHistorialDePartidas()
+        {
+            List<EstadisticasDePartida> historial = new List<EstadisticasDePartida>();
+            try
+            {
+                //Le doy mi consulta.
+                this._command.CommandText = "SELECT * FROM HistorialPartidas";
+
+                //Abro la conexion.
+                this._connection.Open();
+
+                //ExecuteReader() porque nos va a DEVOLVER REGISTROS.
+                this._reader = this._command.ExecuteReader();
+
+                //Bucle mientras siga leyendo. Aca va la logica.
+                while (_reader.Read())
+                {
+                    //Accedo a los datos leidos, pero tengo que saber la identificacion
+                    //de las columnas.
+                    string nombre = _reader["nombre_ganador"].ToString();
+                    int cantJugadores = (int)_reader["cantidad_jugadores"];
+                    int cantCartasNormales = (int)_reader["cartas_tiradas"];
+                    int cantCartasEspeciales = (int)_reader["especiales_tiradas"];
+                    int cantTurnos = (int)_reader["cantidad_turnos"];
+                    DateTime fecha = (DateTime)_reader["fecha"];
+
+                    historial.Add(new EstadisticasDePartida(nombre,cantJugadores,cantTurnos,cantCartasNormales
+                        ,cantCartasEspeciales ,fecha));
+
+                }
+            }
+            catch //En caso de error
+            {
+                historial = new List<EstadisticasDePartida>();
+            }
+            finally//Siempre cerrar la conexion.
+            {
+                this._connection.Close();
+            }
+            return historial;
+        }
+
+        public void GuardarPartidaEnHistorial(EstadisticasDePartida partida)
+        {
+            try
+            {
+                //Abro la conexion
+                this._connection.Open();
+
+                //Comando
+                this._command.CommandText = "INSERT INTO HistorialPartidas VALUES (@nombre, @jugadores," +
+                    "@cartasNormales, @cartasEsp, @turnos, @fecha)";
+
+                //Le digo el dato que le corresponde a cada parametro.
+                this._command.Parameters.AddWithValue("@nombre", partida.Ganador);
+                this._command.Parameters.AddWithValue("@jugadores", partida.CantidadDeJugadores);
+                this._command.Parameters.AddWithValue("@cartasNormales", partida.CartasNormalesUsadas);
+                this._command.Parameters.AddWithValue("@cartasEsp", partida.CartasEspecialesUsadas);
+                this._command.Parameters.AddWithValue("@turnos", partida.Turnos);
+                this._command.Parameters.AddWithValue("@fecha", partida.Fecha);
+
+                //ExecuteNonQuery() ya que no va a devolver nada (NO es una consulta).
+                this._command.ExecuteNonQuery();
+                //No olvidar de hacer Clear() de los parametros.
+                this._command.Parameters.Clear();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Rip: " + ex.Message);
+            }
+            finally
+            {
+                this._connection.Close();
+            }
+        }
+
         #endregion
 
         #region PRUEBA

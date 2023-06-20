@@ -183,6 +183,12 @@ namespace Clases
                     ret = true;
                     break;
                 }
+                else if (cartaEnMesa.Color == ColoresDeCarta.Negro && c.Color!= ColoresDeCarta.Negro)
+                {
+                    cartaAeliminar = c;
+                    ret = true;
+                    break;
+                }
             }
 
             //Elimino la carta de la mano del jugador.
