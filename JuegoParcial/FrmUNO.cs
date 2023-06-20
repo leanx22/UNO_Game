@@ -14,39 +14,31 @@ namespace JuegoParcial
     public partial class FrmUNO : Form
     {
         private UNO uno;
+
         public FrmUNO()
         {
             InitializeComponent();
-            uno = new UNO();
+            //Instancio la clase del juego y me suscribo a sus eventos
+            uno = new UNO(this.JuegoTerminado, this.ActualizarMesa, this.UNOhandler,
+                this.NuevaNotificacion, this.ActualizarCartas);         
         }
 
         private void FrmUNO_Load(object sender, EventArgs e)
         {
-            uno.OnGameOver += this.JuegoTerminado;
-            uno.OnNotificacion += this.NuevaNotificacion;
-            uno.OnUNO += this.UNOhandler;
-            uno.actualizarCartas = this.ActualizarCartas;
-            uno.actualizarMesa = this.ActualizarMesa;
+            #region Borrar
+            // uno.OnGameOver += this.JuegoTerminado;
+            //uno.OnNotificacion += this.NuevaNotificacion;
+            // uno.OnUNO += this.UNOhandler;
+            // uno.OnNuevaCartaEnMesa += this.ActualizarMesa;
+            //uno.actualizarVistaCartas = this.ActualizarCartas;            
             //MessageBox.Show(juego.ListadoDeJugadores());
+            #endregion
 
             this.lBoxJuan.Enabled = false;
             this.lBoxLean.Enabled = false;
 
+            //Inicio la tarea del juego.
             Task Juego = Task.Run(this.uno.Jugar);
-
-            /* test
-            List<Jugador> lista = this.juego.Jugadores;
-            foreach (Jugador item in lista)
-            {
-                MessageBox.Show("Jugador: "+item.Nombre);
-                foreach (Carta c in item.Cartas)
-                {
-                    MessageBox.Show("Carta: "+c.ToString());
-                }
-            }
-            MessageBox.Show(juego.Mazo.ToString());
-            */
-
         }
 
         private void NuevaNotificacion(string msj)
@@ -64,9 +56,17 @@ namespace JuegoParcial
 
         }
 
-        private void JuegoTerminado()
+        private void JuegoTerminado(Jugador jugador,EstadisticasDePartida estadisticas)
         {
-            MessageBox.Show("Evento");
+            jugador.PartidasGanadas++;
+            FrmFinal ventana = new FrmFinal(estadisticas);
+            ventana.ShowDialog();
+            
+            if (this.InvokeRequired)
+            {
+                Action funcion = new Action(this.Close);
+                this.Invoke(funcion);
+            }
         }
 
         private void UNOhandler(Jugador jugador)
@@ -120,19 +120,26 @@ namespace JuegoParcial
 
         }
 
-        private void ActualizarMesa(Carta carta)
+        private void ActualizarMesa()
         {
             if (lblCartaEnMesa.InvokeRequired)
             {
-                DelegadoCarta funcion = new DelegadoCarta(ActualizarMesa);
-                object[] parametros = { carta };
-                this.lblCartaEnMesa.Invoke(funcion, parametros);
+                Action funcion = new Action(ActualizarMesa);
+                this.lblCartaEnMesa.Invoke(funcion);
             }
             else
             {
-                this.lblCartaEnMesa.Text = "Carta actual: " + carta.ToString();
+                this.lblCartaEnMesa.Text = "Carta actual: " + uno.EnMesa.ToString();
             }
 
+        }
+
+        private void btnPararJuego_Click(object sender, EventArgs e)
+        {
+            this.btnPararJuego.Text = "Cancelando...";
+            this.lblEventos.Text = "El juego fue interrupido.\nCalculando el ganador segun cantidad de" +
+                " cartas...";
+            this.uno.cancellationTokenSource.Cancel();
         }
     }
 }

@@ -15,10 +15,11 @@ namespace Clases
 
         public Mazo()
         {
+            this._random = new Random();
             this._cartas = new Stack<Carta>();
             this._poolCartas = new List<Carta>();
             this.GenerarCartas();
-            this._random = new Random();
+            this.MezclarCartas();           
         }
 
         public Stack<Carta> Cartas { get { return this._cartas; } }
@@ -34,7 +35,7 @@ namespace Clases
             }
         }
 
-        public void MezclarCartas()
+        private void MezclarCartas()
         {
             int contador = 0;
             this._cartas.Clear();
@@ -57,12 +58,22 @@ namespace Clases
         /// <param name="cantidad">
         /// Cantidad de cartas necesarias.
         /// </param>
+        /// <param name="probabilidadEspecial">
+        /// Probabilidad de que toque una carta especial.
+        /// </param>>
         /// <returns>Lista de cartas.</returns>
         public List<Carta> ObtenerCarta(int cantidad,float probabilidadEspecial)
         {
             Random rm = new Random();
             List<Carta> cartas = new List<Carta>();
-            
+
+            //Siempre valido si quedan 8 o menos cartas. Si es asi
+            //Vuelvo a mezclar el mazo automaticamente para no quedarme sin cartas.
+            if (this._cartas.Count <= 8)
+            {
+                this.MezclarCartas();
+            }
+
             for (int i = 0; i < cantidad; i++)
             {
                 if (rm.Next(0, 101) <= (probabilidadEspecial * 100))

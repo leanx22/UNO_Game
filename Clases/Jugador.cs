@@ -15,6 +15,7 @@ namespace Clases
         private int _partidasGanadas;
         private List<Carta> _cartas;
 
+        //Delegado en el que guardo la direccion de memoria de la funcion "ObtenerCarta" del mazo
         public obtenerCartas OnTomaCarta;
         public event Action<CartaArgs> OnCartaTirada;
 
@@ -27,9 +28,11 @@ namespace Clases
             this._cartas = new List<Carta>();
         }
 
-        public List<Carta> Cartas { get { return this._cartas; } set { this._cartas = value; } }//tal vez only read?
+        public List<Carta> Cartas { get { return this._cartas; } set { this._cartas = value; } }
         public string Nombre { get { return this._nombre; } }
         public float Suerte { get {  return this._suerte; } }
+        public int PartidasGanadas { get { return this._partidasGanadas; } set { this._partidasGanadas = value; } }
+
 
         public bool IniciarTurno(Carta CartaSobreLaMesa)
         {
@@ -187,8 +190,11 @@ namespace Clases
             {
                 this._cartas.Remove(cartaAeliminar);
                 //Evento de cuando se tira una carta.
-                OnCartaTirada.Invoke(new CartaArgs(cartaAeliminar.Color, cartaAeliminar.Valor,
-                    cartaAeliminar.Comportamiento, this));
+                if (OnCartaTirada != null)
+                {
+                    OnCartaTirada.Invoke(new CartaArgs(cartaAeliminar.Color, cartaAeliminar.Valor,
+                        cartaAeliminar.Comportamiento, this));
+                }
             }
 
             return ret;

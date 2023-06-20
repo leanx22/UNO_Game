@@ -34,6 +34,7 @@
             lblCartaEnMesa = new Label();
             lblJuan = new Label();
             lblLean = new Label();
+            btnPararJuego = new Button();
             SuspendLayout();
             // 
             // lblEventos
@@ -96,11 +97,23 @@
             lblLean.TabIndex = 5;
             lblLean.Text = "Lean";
             // 
+            // btnPararJuego
+            // 
+            btnPararJuego.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnPararJuego.Location = new Point(12, 21);
+            btnPararJuego.Name = "btnPararJuego";
+            btnPararJuego.Size = new Size(111, 51);
+            btnPararJuego.TabIndex = 6;
+            btnPararJuego.Text = "Terminar juego";
+            btnPararJuego.UseVisualStyleBackColor = true;
+            btnPararJuego.Click += btnPararJuego_Click;
+            // 
             // FrmUNO
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 547);
+            Controls.Add(btnPararJuego);
             Controls.Add(lblLean);
             Controls.Add(lblJuan);
             Controls.Add(lblCartaEnMesa);
@@ -122,5 +135,6 @@
         private Label lblCartaEnMesa;
         private Label lblJuan;
         private Label lblLean;
+        private Button btnPararJuego;
     }
 }
