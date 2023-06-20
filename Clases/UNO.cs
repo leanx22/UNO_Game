@@ -14,10 +14,11 @@ namespace Clases
         private Carta _mesa; //Carta actual en la mesa.
 
         public event Action OnGameOver;
-        public event Action OnCartaActualizada;
+        public DelegadoCarta actualizarMesa;
         public event Action<string> OnAccionRealizada;
         public event Action<Jugador> OnUNO;
-        public event Action<string> OnNotificacion;
+        public event DelegadoNotificacion OnNotificacion;
+        public DelegadoJugador actualizarCartas;
 
         public UNO()
         {
@@ -79,6 +80,8 @@ namespace Clases
                     this.SinAcciones(jugador);
                 }
 
+                this.actualizarCartas.Invoke(jugador);
+
                 #region Control de la cantidad de cartas de cada jugador
                 if (jugador.Cartas.Count == 1)
                 {
@@ -103,7 +106,7 @@ namespace Clases
                 #endregion
 
                 //Tiempo de pausa.
-                Thread.Sleep(2000);
+                Thread.Sleep(5000);
             }
             while (continuar);
 
@@ -128,6 +131,7 @@ namespace Clases
                     a.Color.ToString() +" | " + a.Valor.ToString()+".\nLe quedan "+
                     a.Fuente.Cartas.Count+" cartas en el mazo.");
             }
+            this.actualizarMesa.Invoke(this._mesa);
         }
 
         private void SinAcciones(Jugador jugador)
@@ -143,7 +147,7 @@ namespace Clases
             {
                 this.OnNotificacion.Invoke(jugador.Nombre + " toma +1 carta. Que suerte, le toco un " +
                         "(" + carta.Comportamiento.ToString()+ ") y pasa su turno.");
-            }           
+            }
         }
 
     }

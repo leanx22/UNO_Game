@@ -25,7 +25,12 @@ namespace JuegoParcial
             uno.OnGameOver += this.JuegoTerminado;
             uno.OnNotificacion += this.NuevaNotificacion;
             uno.OnUNO += this.UNOhandler;
+            uno.actualizarCartas = this.ActualizarCartas;
+            uno.actualizarMesa = this.ActualizarMesa;
             //MessageBox.Show(juego.ListadoDeJugadores());
+
+            this.lBoxJuan.Enabled = false;
+            this.lBoxLean.Enabled = false;
 
             Task Juego = Task.Run(this.uno.Jugar);
 
@@ -46,7 +51,17 @@ namespace JuegoParcial
 
         private void NuevaNotificacion(string msj)
         {
-            lblEventos.Text=msj;
+            if (this.lblEventos.InvokeRequired)
+            {
+                DelegadoNotificacion funcion = new DelegadoNotificacion(NuevaNotificacion);
+                object[] parametros = { msj };
+                this.lblEventos.Invoke(funcion, parametros);
+            }
+            else
+            {
+                lblEventos.Text = msj;
+            }
+
         }
 
         private void JuegoTerminado()
@@ -56,21 +71,68 @@ namespace JuegoParcial
 
         private void UNOhandler(Jugador jugador)
         {
-            lblEventos.Text = jugador.Nombre + " dice UNO.";
+            if (this.lblEventos.InvokeRequired)
+            {
+                DelegadoJugador funcion = new DelegadoJugador(UNOhandler);
+                object[] parametros = { jugador };
+                this.lblEventos.Invoke(funcion, parametros);
+            }
+            else
+            {
+                lblEventos.Text = jugador.Nombre + " dice UNO.";
+            }
         }
 
-        private void ActualizarCartas(Jugador jugador1, Jugador jugador2)
+        private void ActualizarCartas(Jugador jugador)
         {
-            this.lBoxLean.DataSource = null;
-            this.lBoxLean.DataSource = jugador1;
+            if (jugador.Nombre == "Lean")
+            {
+                if (this.lBoxLean.InvokeRequired)
+                {
+                    DelegadoJugador funcion = new DelegadoJugador(ActualizarCartas);
+                    object[] parametros = { jugador };
+                    this.lBoxLean.Invoke(funcion, parametros);
+                }
+                else
+                {
+                    this.lBoxLean.DataSource = null;
+                    this.lBoxLean.DataSource = jugador.Cartas;
+                    this.lBoxLean.SelectedItem = null;
 
-            this.lBoxJuan.DataSource = null;
-            this.lBoxJuan.DataSource = jugador2;
+                }
+            }
+
+            if (jugador.Nombre == "Juan")
+            {
+                if (this.lBoxJuan.InvokeRequired)
+                {
+                    DelegadoJugador funcion = new DelegadoJugador(ActualizarCartas);
+                    object[] parametros = { jugador };
+                    this.lBoxJuan.Invoke(funcion, parametros);
+                }
+                else
+                {
+                    this.lBoxJuan.DataSource = null;
+                    this.lBoxJuan.DataSource = jugador.Cartas;
+                    this.lBoxJuan.SelectedItem = null;
+                }
+            }
+
         }
 
         private void ActualizarMesa(Carta carta)
         {
-            this.lblCartaEnMesa.Text = "Carta actual: "+carta.ToString();
+            if (lblCartaEnMesa.InvokeRequired)
+            {
+                DelegadoCarta funcion = new DelegadoCarta(ActualizarMesa);
+                object[] parametros = { carta };
+                this.lblCartaEnMesa.Invoke(funcion, parametros);
+            }
+            else
+            {
+                this.lblCartaEnMesa.Text = "Carta actual: " + carta.ToString();
+            }
+
         }
     }
 }

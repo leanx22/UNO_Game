@@ -56,11 +56,11 @@ namespace Clases
             return "Color: "+this.Color+" | Valor: "+this.Valor+" | Comportamiento: "+this.Comportamiento;
         }
 
-        public override bool Equals(object? obj)
+     /*   public override bool Equals(object? obj)
         {
             Carta carta = (Carta)obj;
             return carta is not null && this == carta;
         }
-
+     */
     }
 }
