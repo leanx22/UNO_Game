@@ -25,9 +25,11 @@ namespace Clases
         public BBDD()
         {
             //Al inicializarlo, le pasamos la "cadena de conexion" del servidor.
-            this._connection = new SqlConnection(@"Data Source = localhost;
+            this._connection = new SqlConnection(@"Data Source = .;
                                 Database = UNO;
-                                Trusted_Connection = True;");
+                                Trusted_Connection = True;
+                                User ID = sa;
+                                Password = alumno");
 
             this._command = new SqlCommand();
             //Luego de instanciar, debemos definir el tipo, nosotros usamos "Text".
