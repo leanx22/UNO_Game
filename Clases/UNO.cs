@@ -10,7 +10,7 @@ namespace Clases
     {
         private Mazo _mazo; //Mazo de cartas.
         private List<Jugador> _listaJugadores; // Jugadores actuales.
-        private BBDD _base; //Conexion a la base de datos.
+        public BBDD _base; //Conexion a la base de datos.
         private Carta _mesa; //Carta actual en la mesa.
         private EstadisticasDePartida _estadisticasDePartida;
 
