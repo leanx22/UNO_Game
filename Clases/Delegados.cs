@@ -1,6 +1,6 @@
 ﻿namespace Clases
 {
-    public delegate void Error(string textoExcepcion);
+    public delegate void Error(Exception e);
     public delegate List<Carta> obtenerCartas(int cant, float probabilidadEspecial);
     public delegate void DelegadoNotificacion(string txt);
     public delegate void DelegadoJugador(Jugador jugador);

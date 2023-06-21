@@ -68,7 +68,7 @@ namespace Clases
         /// <returns>
         /// Retorna el Color mas repetido en la mano del jugador.
         /// </returns>
-        private ColoresDeCarta ObtenerColorMasRepetidoEnMano()
+        public ColoresDeCarta ObtenerColorMasRepetidoEnMano()
         {
             int rojas = 0;
             int amarillas = 0;
@@ -125,7 +125,7 @@ namespace Clases
         /// Retorna Verdadero si el jugador debe perder el turno, caso contrario
         /// retornara False.
         /// </returns>
-        public bool RespuestaCartasEspeciales(Carta carta)
+        private bool RespuestaCartasEspeciales(Carta carta)
         {
             bool ret=false;
             List<Carta> cartasAagregar = new List<Carta>();
@@ -167,7 +167,7 @@ namespace Clases
         /// <returns>
         /// Retorna True si se encontro y utilizo una carta, caso contrario retornara false.
         /// </returns>
-        public bool IntentarUsarCartaNormal(Carta cartaEnMesa)
+        private bool IntentarUsarCartaNormal(Carta cartaEnMesa)
         {
             bool ret = false;
             Carta cartaAeliminar = new Carta();
@@ -216,7 +216,7 @@ namespace Clases
         /// <returns>
         /// Retorna Verdadero si se utilizo alguna, caso contrario retorna False.
         /// </returns>
-        public bool IntentarUsarCartaEspecial(Carta cartaEnMesa)
+        private bool IntentarUsarCartaEspecial(Carta cartaEnMesa)
         {
             bool ret = false;
             Carta cartaAEliminar = new Carta();
@@ -228,22 +228,22 @@ namespace Clases
                 switch (c.Comportamiento)
                 {
                     case Comportamiento.CambiaColor: //Puede usarse sin importar el color.
-                        this._cartas.Remove(c);
+                        //this._cartas.Remove(c);
                         OnCartaTirada.Invoke(new CartaArgs(ObtenerColorMasRepetidoEnMano(),
                             -1, Comportamiento.CambiaColor, this));
                         ret = true;
                         break;
-                    case Comportamiento.TomaCuatro: //Puede usarse sin importar el color.
-                        this._cartas.Remove(c);
+                    case Comportamiento.TomaCuatro: //Puede usarse sin importar el color.                       
+                        //this._cartas.Remove(c);
                         OnCartaTirada.Invoke(new CartaArgs(ColoresDeCarta.Negro, -4,
-                            Comportamiento.TomaCuatro, this));
+                        Comportamiento.TomaCuatro, this));
                         ret = true;
                         break;
                     case Comportamiento.TomaDos:
                         //Verifico que el +2 sea del mismo color que la carta en mesa para usarlo.
                         if (cartaEnMesa.Color == c.Color) 
                         {
-                            this._cartas.Remove(c);
+                            //this._cartas.Remove(c);
                             OnCartaTirada.Invoke(new CartaArgs(c.Color, -2, Comportamiento.TomaDos,
                                 this));                            
                             ret = true;
@@ -253,7 +253,7 @@ namespace Clases
                         //Verifico que la carta sea del mismo color que la carta en mesa para usarla.
                         if (cartaEnMesa.Color == c.Color)
                         {
-                            this._cartas.Remove(c);
+                            //this._cartas.Remove(c);
                             OnCartaTirada.Invoke(new CartaArgs(c.Color, -3, Comportamiento.CancelaTurno,
                                 this));                            
                             ret = true;
@@ -261,7 +261,11 @@ namespace Clases
                         break;
                 }
 
-                if (ret) { break; }
+                if (ret)
+                {
+                    this._cartas.Remove(c);
+                    break;
+                }
 
             }
 

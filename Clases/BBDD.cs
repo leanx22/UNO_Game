@@ -17,8 +17,10 @@ namespace Clases
         //la base de datos especificada por _connection.
         private SqlCommand _command;
 
+        //Lector de datos
+        private SqlDataReader _reader;
 
-        private SqlDataReader _reader; //Lector de datos
+        public event Error OnError;
 
         public BBDD()
         {
@@ -65,8 +67,9 @@ namespace Clases
                     
                 }
             }
-            catch //En caso de error
+            catch(Exception ex) //En caso de error
             {
+                this.OnError(ex);
                 jugadores = new List<Jugador>();
             }
             finally//Siempre cerrar la conexion.
@@ -107,8 +110,9 @@ namespace Clases
 
                 }
             }
-            catch //En caso de error
+            catch(Exception ex) //En caso de error
             {
+                this.OnError(ex);
                 historial = new List<EstadisticasDePartida>();
             }
             finally//Siempre cerrar la conexion.
@@ -144,7 +148,7 @@ namespace Clases
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Rip: " + ex.Message);
+                this.OnError(ex);
             }
             finally
             {

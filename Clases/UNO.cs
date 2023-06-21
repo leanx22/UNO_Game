@@ -62,18 +62,25 @@ namespace Clases
         /// <summary>
         /// Funcion principal, donde se inicializa y ocurre el juego dentro del gameLoop.
         /// </summary>
-        public void Jugar()
+        /// <param name="cartasIniciales">
+        /// Cantidad de cartas con las que inicia cada jugador.
+        /// </param>
+        /// <param name="msVelocidad">
+        /// Cantidad de tiempo entre turnos (en milisegundos).
+        /// </param>
+        public void Jugar(int cartasIniciales,int msVelocidad)
         {
             Random rm = new Random();
             Jugador jugador;
             bool continuar = true;
 
-            //Cada jugador toma 7 cartas y me suscribo a sus eventos.
+            //Cada jugador toma las cartas especificadas en "cartasIniciales"
+            //y me suscribo a sus eventos.
             foreach (Jugador j in this._listaJugadores)
             {
                 j.OnCartaTirada += this.CartaTiradaHandler;
                 j.OnTomaCarta += this._mazo.ObtenerCarta;
-                j.Cartas = this._mazo.ObtenerCarta(7, j.Suerte);
+                j.Cartas = this._mazo.ObtenerCarta(cartasIniciales, j.Suerte);
             }
 
             //Obtengo la primera utilizando la funcion "ObtenerCarta" del mazo pasandole como
@@ -141,7 +148,7 @@ namespace Clases
                 #endregion
 
                 //Tiempo muerto antes del siguiente jugador
-                Thread.Sleep(5000);
+                Thread.Sleep(msVelocidad);
             }
             while (continuar);
 
