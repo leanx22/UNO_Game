@@ -23,7 +23,7 @@ namespace JuegoParcial
             //Instancio la clase del juego y me suscribo a sus eventos
             uno = new UNO(this.JuegoTerminado, this.ActualizarMesa, this.UNOhandler,
                 this.NuevaNotificacion, this.ActualizarCartas);
-
+            uno._base.OnError += this.mostrarEx;
         }
 
         private void FrmUNO_Load(object sender, EventArgs e)
@@ -140,6 +140,11 @@ namespace JuegoParcial
             this.tBoxNotificaciones.Text = "El juego fue interrupido.\nCalculando el ganador segun cantidad de" +
                 " cartas...";
             this.uno.cancellationTokenSource.Cancel();
+        }
+        
+        private void mostrarEx(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
         }
     }
 }
