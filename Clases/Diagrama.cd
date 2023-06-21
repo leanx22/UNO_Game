@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Clases.UNO">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQIAAAgAgAAAAAAASAEAAAAAmCAAAAAECBAIAQCAQAA=</HashCode>
+      <FileName>UNO.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Clases.Mazo">
+    <Position X="5.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAgAAAACAgkAggAAAAAAAIAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Mazo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Clases.Jugador">
+    <Position X="8.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>IAgBAMAAAAAAyAAGRAlAgAABAAAAAAQAAAAAAAIAAgA=</HashCode>
+      <FileName>Jugador.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Clases.EstadisticasDePartida">
+    <Position X="3.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQgABQAAAAMAAAACAEAAAAACAAAAAAAABAAAAAQ=</HashCode>
+      <FileName>EstadisticasDePartida.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Clases.Carta">
+    <Position X="5.75" Y="4.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAIAADEAAAAAAAEAAAAAACAAAAAiAAAAiA=</HashCode>
+      <FileName>Carta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Clases.Archivos&lt;T&gt;">
+    <Position X="12" Y="4.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Archivos.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Clases.BBDD">
+    <Position X="12" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAEAIIAAQACAAAAAEACAAAAABAAAAAAAAAgAAFAABAA=</HashCode>
+      <FileName>BBDD.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Clases.CartaArgs">
+    <Position X="4.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAEAAAABACAAAAAiAAAAIg=</HashCode>
+      <FileName>CartaArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Clases.IJuegoDeCartas" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAEABAAAAAAAAA=</HashCode>
+      <FileName>Interfaces.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Clases.IBaseDeDatosParaJuegoDeCartas" Collapsed="true">
+    <Position X="12" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQACAAAAAEAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Interfaces.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Clases.ColoresDeCarta" Collapsed="true">
+    <Position X="8.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAEAAQQAAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Enumerados.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Clases.Comportamiento" Collapsed="true">
+    <Position X="8.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAIAAAAAIIAAAAAAAA=</HashCode>
+      <FileName>Enumerados.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Clases.Error" Collapsed="true">
+    <Position X="12" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Clases.obtenerCartas" Collapsed="true">
+    <Position X="10.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Clases.DelegadoNotificacion" Collapsed="true">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Clases.DelegadoJugador" Collapsed="true">
+    <Position X="2.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Clases.DelegadoCarta" Collapsed="true">
+    <Position X="2.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Clases.DelegadoGameOver" Collapsed="true">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

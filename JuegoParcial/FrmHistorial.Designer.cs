@@ -34,6 +34,7 @@
             // 
             // gridHistorial
             // 
+            gridHistorial.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             gridHistorial.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridHistorial.Dock = DockStyle.Fill;
             gridHistorial.Location = new Point(0, 0);

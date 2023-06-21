@@ -61,8 +61,7 @@ namespace Clases
             {
                 return "" + this.Color + " | " + this.Valor;
             }
-                
-                
+                               
         }
     }
 }

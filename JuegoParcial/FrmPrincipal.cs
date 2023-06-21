@@ -34,8 +34,8 @@ namespace JuegoParcial
 
         private void FrmPrincipal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult res = MessageBox.Show("Seguro que quiere cerrar el juego?","Confirmar",
-                MessageBoxButtons.OKCancel,MessageBoxIcon.Question);
+            DialogResult res = MessageBox.Show("Seguro que quiere cerrar el juego?", "Confirmar",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (res != DialogResult.OK)
             {
                 e.Cancel = true;

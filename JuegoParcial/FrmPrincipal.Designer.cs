@@ -31,7 +31,6 @@
             lblTitulo = new Label();
             btnNuevaPartida = new Button();
             btnHistorial = new Button();
-            btnAjustes = new Button();
             btn_Salir = new Button();
             SuspendLayout();
             // 
@@ -66,18 +65,9 @@
             btnHistorial.UseVisualStyleBackColor = true;
             btnHistorial.Click += btnHistorial_Click;
             // 
-            // btnAjustes
-            // 
-            btnAjustes.Location = new Point(82, 172);
-            btnAjustes.Name = "btnAjustes";
-            btnAjustes.Size = new Size(182, 34);
-            btnAjustes.TabIndex = 3;
-            btnAjustes.Text = "Ajustes";
-            btnAjustes.UseVisualStyleBackColor = true;
-            // 
             // btn_Salir
             // 
-            btn_Salir.Location = new Point(82, 212);
+            btn_Salir.Location = new Point(82, 172);
             btn_Salir.Name = "btn_Salir";
             btn_Salir.Size = new Size(182, 34);
             btn_Salir.TabIndex = 4;
@@ -91,7 +81,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(354, 321);
             Controls.Add(btn_Salir);
-            Controls.Add(btnAjustes);
             Controls.Add(btnHistorial);
             Controls.Add(btnNuevaPartida);
             Controls.Add(lblTitulo);
@@ -109,7 +98,6 @@
         private Label lblTitulo;
         private Button btnNuevaPartida;
         private Button btnHistorial;
-        private Button btnAjustes;
         private Button btn_Salir;
     }
 }
