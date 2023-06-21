@@ -18,6 +18,7 @@ namespace JuegoParcial
         {
             InitializeComponent();
             _base = new BBDD();
+            _base.OnError += this.MostrarEx;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
@@ -32,6 +33,11 @@ namespace JuegoParcial
             this.gridHistorial.MultiSelect = false;
 
             this.gridHistorial.DataSource = _base.ObtenerHistorialDePartidas();
+        }
+        private void MostrarEx(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+            this.Close();
         }
     }
 }
