@@ -25,11 +25,13 @@ namespace Clases
         public BBDD()
         {
             //Al inicializarlo, le pasamos la "cadena de conexion" del servidor.
-            this._connection = new SqlConnection(@"Data Source = .;
-                                Database = UNO;
-                                Trusted_Connection = True;
-                                User ID = sa;
-                                Password = alumno");
+            SqlConnectionStringBuilder sb = new SqlConnectionStringBuilder();
+            sb.UserID = "sa";
+            sb.Password = "alumno";
+            sb.DataSource = ".";
+            //sb.AttachDBFilename = "UNO";
+
+            this._connection = new SqlConnection(sb.ToString()+ "; Database = UNO ;Trusted_Connection = True;");
 
             this._command = new SqlCommand();
             //Luego de instanciar, debemos definir el tipo, nosotros usamos "Text".
