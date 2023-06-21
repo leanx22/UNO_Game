@@ -35,7 +35,6 @@ namespace JuegoParcial
             this.lBoxJuan.Enabled = false;
             this.lBoxLean.Enabled = false;
             this.tBoxNotificaciones.Enabled = false;
-
             //Inicio la tarea del juego.
             Task Juego = Task.Run(() => this.uno.Jugar(7, 3500));
         }
