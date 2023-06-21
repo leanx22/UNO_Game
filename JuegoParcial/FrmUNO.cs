@@ -14,54 +14,54 @@ namespace JuegoParcial
     public partial class FrmUNO : Form
     {
         private UNO uno;
-
+        private BBDD _base;
         public FrmUNO()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            _base = new BBDD();
             //Instancio la clase del juego y me suscribo a sus eventos
             uno = new UNO(this.JuegoTerminado, this.ActualizarMesa, this.UNOhandler,
-                this.NuevaNotificacion, this.ActualizarCartas);         
+                this.NuevaNotificacion, this.ActualizarCartas);
+
         }
 
         private void FrmUNO_Load(object sender, EventArgs e)
         {
-            #region Borrar
-            // uno.OnGameOver += this.JuegoTerminado;
-            //uno.OnNotificacion += this.NuevaNotificacion;
-            // uno.OnUNO += this.UNOhandler;
-            // uno.OnNuevaCartaEnMesa += this.ActualizarMesa;
-            //uno.actualizarVistaCartas = this.ActualizarCartas;            
-            //MessageBox.Show(juego.ListadoDeJugadores());
-            #endregion
-
+            this.Text = "Partida";
+            this.lblLean.Text = "Lean | " + uno.Jugadores[0].PartidasGanadas + " ganadas.";
+            this.lblJuan.Text = "Juan | " + uno.Jugadores[1].PartidasGanadas + " ganadas.";
+            this.ControlBox = false;
             this.lBoxJuan.Enabled = false;
             this.lBoxLean.Enabled = false;
+            this.tBoxNotificaciones.Enabled = false;
 
             //Inicio la tarea del juego.
-            Task Juego = Task.Run(()=>this.uno.Jugar(7,3500));
+            Task Juego = Task.Run(() => this.uno.Jugar(7, 3500));
         }
 
         private void NuevaNotificacion(string msj)
         {
-            if (this.lblEventos.InvokeRequired)
+            if (this.tBoxNotificaciones.InvokeRequired)
             {
                 DelegadoNotificacion funcion = new DelegadoNotificacion(NuevaNotificacion);
                 object[] parametros = { msj };
-                this.lblEventos.Invoke(funcion, parametros);
+                this.tBoxNotificaciones.Invoke(funcion, parametros);
             }
             else
             {
-                lblEventos.Text = msj;
+                tBoxNotificaciones.Text = msj;
             }
 
         }
 
-        private void JuegoTerminado(Jugador jugador,EstadisticasDePartida estadisticas)
+        private void JuegoTerminado(Jugador jugador, EstadisticasDePartida estadisticas)
         {
             jugador.PartidasGanadas++;
+            _base.ActualizarPartidasGanadas(jugador);
             FrmFinal ventana = new FrmFinal(estadisticas);
             ventana.ShowDialog();
-            
+
             if (this.InvokeRequired)
             {
                 Action funcion = new Action(this.Close);
@@ -71,15 +71,15 @@ namespace JuegoParcial
 
         private void UNOhandler(Jugador jugador)
         {
-            if (this.lblEventos.InvokeRequired)
+            if (this.tBoxNotificaciones.InvokeRequired)
             {
                 DelegadoJugador funcion = new DelegadoJugador(UNOhandler);
                 object[] parametros = { jugador };
-                this.lblEventos.Invoke(funcion, parametros);
+                this.tBoxNotificaciones.Invoke(funcion, parametros);
             }
             else
             {
-                lblEventos.Text = jugador.Nombre + " dice UNO.";
+                tBoxNotificaciones.Text = jugador.Nombre + " dice UNO.";
             }
         }
 
@@ -129,7 +129,7 @@ namespace JuegoParcial
             }
             else
             {
-                this.lblCartaEnMesa.Text = "Carta actual: " + uno.EnMesa.ToString();
+                this.lblCartaEnMesa.Text = "" + uno.EnMesa.ToString();
             }
 
         }
@@ -137,7 +137,7 @@ namespace JuegoParcial
         private void btnPararJuego_Click(object sender, EventArgs e)
         {
             this.btnPararJuego.Text = "Cancelando...";
-            this.lblEventos.Text = "El juego fue interrupido.\nCalculando el ganador segun cantidad de" +
+            this.tBoxNotificaciones.Text = "El juego fue interrupido.\nCalculando el ganador segun cantidad de" +
                 " cartas...";
             this.uno.cancellationTokenSource.Cancel();
         }

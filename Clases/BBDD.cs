@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace Clases
 {
-   public class BBDD
+   public class BBDD : IBaseDeDatosParaJuegoDeCartas
     {
         //Encargada de manejar la conexion con la base.
         //Se encarga del Open() y Close() de la base.
@@ -122,6 +122,10 @@ namespace Clases
             return historial;
         }
 
+        #endregion
+
+        
+        #region Escritura
         public void GuardarPartidaEnHistorial(EstadisticasDePartida partida)
         {
             try
@@ -156,7 +160,92 @@ namespace Clases
             }
         }
 
+        public void AgregarJugador(Jugador jugador)
+        {
+            try
+            {
+                //Abro la conexion
+                this._connection.Open();
+
+                //Comando
+                this._command.CommandText = "INSERT INTO Jugador VALUES (@nombre, @suerte, @partidasGanadas)";
+
+
+                //Le digo el dato que le corresponde a cada parametro.
+                this._command.Parameters.AddWithValue("@nombre", jugador.Nombre);
+                this._command.Parameters.AddWithValue("@suerte", jugador.Suerte);
+                this._command.Parameters.AddWithValue("@partidasGanadas", jugador.PartidasGanadas);
+
+                //ExecuteNonQuery() ya que no va a devolver nada (NO es una consulta).
+                this._command.ExecuteNonQuery();
+                this._command.Parameters.Clear();
+            }
+            catch (Exception ex)
+            {
+                this.OnError(ex);
+            }
+            finally
+            {
+                this._connection.Close();
+            }
+        }
+
+        public void BorrarJugador(Jugador jugador)
+        {
+            try
+            {
+                //Comando
+                this._command.CommandText = "DELETE FROM Jugador WHERE Nombre = @nombre";
+
+                //Le digo el dato que le corresponde a cada parametro.
+                this._command.Parameters.AddWithValue("@nombre", jugador.Nombre);
+
+                this._connection.Open();
+                this._command.ExecuteNonQuery();
+                this._command.Parameters.Clear();
+            }
+            catch (Exception ex)
+            {
+                this.OnError(ex);
+            }
+            finally
+            {
+                this._connection.Close();
+            }
+        }
+
+        public void ActualizarPartidasGanadas(Jugador jugador)
+        {
+            try
+            {
+                //Abro la conexion
+                this._connection.Open();
+
+                //Comando
+                this._command.CommandText = "UPDATE Jugador SET PartidasGanadas = @partidasGanadas" +
+                    " WHERE id = @id;";
+
+
+                //Le digo el dato que le corresponde a cada parametro.
+                this._command.Parameters.AddWithValue("@partidasGanadas", jugador.PartidasGanadas);
+                this._command.Parameters.AddWithValue("@id", jugador.ID);
+
+                //ExecuteNonQuery() ya que no va a devolver nada (NO es una consulta).
+                this._command.ExecuteNonQuery();
+                this._command.Parameters.Clear();
+            }
+            catch (Exception ex)
+            {
+                this.OnError(ex);
+            }
+            finally
+            {
+                this._connection.Close();
+            }
+        }
+        
         #endregion
+
 
         #region PRUEBA
         public void HacerConsulta()

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Clases
 {
-    public class UNO : IJuego
+    public class UNO : IJuegoDeCartas
     {
         private Mazo _mazo; //Mazo de cartas.
         private List<Jugador> _listaJugadores; // Jugadores actuales.
@@ -178,7 +178,7 @@ namespace Clases
             {
                 this._estadisticasDePartida.CartasNormalesUsadas++;
                 this.OnNotificacion.Invoke(a.Fuente.Nombre + " tiro la carta: " +
-                    a.Color.ToString() + " | " + a.Valor.ToString() + ".\nLe quedan " +
+                    a.Color.ToString() + " | " + a.Valor.ToString() + ". Le quedan " +
                     a.Fuente.Cartas.Count + " cartas en el mazo.");
             }
             this.OnNuevaCartaEnMesa.Invoke();

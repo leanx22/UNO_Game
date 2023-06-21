@@ -23,6 +23,7 @@ namespace JuegoParcial
 
         private void FrmHistorial_Load(object sender, EventArgs e)
         {
+            this.Text = "Partidas recientes.";
             this.MaximizeBox = false;
             this.gridHistorial.ReadOnly = true;
             this.gridHistorial.AllowUserToResizeRows = false;

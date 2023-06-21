@@ -83,6 +83,7 @@
             btn_Salir.TabIndex = 4;
             btn_Salir.Text = "Salir";
             btn_Salir.UseVisualStyleBackColor = true;
+            btn_Salir.Click += btn_Salir_Click;
             // 
             // FrmPrincipal
             // 
@@ -97,6 +98,7 @@
             MinimumSize = new Size(370, 360);
             Name = "FrmPrincipal";
             Text = "Form1";
+            FormClosing += FrmPrincipal_FormClosing;
             Load += FrmPrincipal_Load;
             ResumeLayout(false);
             PerformLayout();

@@ -45,7 +45,7 @@
             lblTitulo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            lblTitulo.Location = new Point(180, 22);
+            lblTitulo.Location = new Point(106, 9);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(146, 21);
             lblTitulo.TabIndex = 0;
@@ -66,7 +66,7 @@
             lblCantJugadores.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             lblCantJugadores.AutoSize = true;
             lblCantJugadores.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            lblCantJugadores.Location = new Point(203, 43);
+            lblCantJugadores.Location = new Point(133, 30);
             lblCantJugadores.Name = "lblCantJugadores";
             lblCantJugadores.Size = new Size(89, 17);
             lblCantJugadores.TabIndex = 2;
@@ -122,7 +122,7 @@
             // btnExportar
             // 
             btnExportar.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnExportar.Location = new Point(386, 386);
+            btnExportar.Location = new Point(34, 300);
             btnExportar.Name = "btnExportar";
             btnExportar.Size = new Size(127, 23);
             btnExportar.TabIndex = 8;
@@ -133,7 +133,7 @@
             // btnOK
             // 
             btnOK.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnOK.Location = new Point(386, 415);
+            btnOK.Location = new Point(204, 300);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(127, 23);
             btnOK.TabIndex = 9;
@@ -145,7 +145,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(525, 450);
+            ClientSize = new Size(367, 351);
             Controls.Add(btnOK);
             Controls.Add(btnExportar);
             Controls.Add(lblFecha);
@@ -156,7 +156,6 @@
             Controls.Add(lblCantJugadores);
             Controls.Add(lblGanador);
             Controls.Add(lblTitulo);
-            MinimumSize = new Size(541, 489);
             Name = "FrmFinal";
             Text = "FrmFinal";
             FormClosing += FrmFinal_FormClosing;

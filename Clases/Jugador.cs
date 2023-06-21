@@ -32,7 +32,7 @@ namespace Clases
         public string Nombre { get { return this._nombre; } }
         public float Suerte { get {  return this._suerte; } }
         public int PartidasGanadas { get { return this._partidasGanadas; } set { this._partidasGanadas = value; } }
-
+        public int ID { get { return this.id; } }
 
         public bool IniciarTurno(Carta CartaSobreLaMesa)
         {

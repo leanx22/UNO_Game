@@ -21,10 +21,12 @@ namespace JuegoParcial
             this.datos = datos;
             this.baseDts = new BBDD();
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void FrmFinal_Load(object sender, EventArgs e)
         {
+            this.Text = "Fin de la partida";
             this.MaximizeBox = false;
             this.lblCantJugadores.Text = "(" + this.datos.CantidadDeJugadores + " jugadores)";
             this.lblGanador.Text = "Ganador: " + this.datos.Ganador;
@@ -45,8 +47,8 @@ namespace JuegoParcial
         {
             if (Archivos<EstadisticasDePartida>.Serializar(datos, "Partida.json"))
             {
-                MessageBox.Show("La partida se exporto de manera satisfactoria!","Listo",
-                    MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("La partida se exporto de manera satisfactoria!", "Listo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             this.Close();
         }
@@ -55,6 +57,6 @@ namespace JuegoParcial
         {
             this.DialogResult = DialogResult.OK;
         }
-       
+
     }
 }

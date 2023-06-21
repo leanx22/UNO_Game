@@ -53,14 +53,16 @@ namespace Clases
 
         public override string ToString()
         {
-            return "Color: "+this.Color+" | Valor: "+this.Valor+" | Comportamiento: "+this.Comportamiento;
+            if (this._comportamiento != Comportamiento.Normal)
+            {
+                return "" + this.Color + " | " + this.Comportamiento;
+            }
+            else
+            {
+                return "" + this.Color + " | " + this.Valor;
+            }
+                
+                
         }
-
-     /*   public override bool Equals(object? obj)
-        {
-            Carta carta = (Carta)obj;
-            return carta is not null && this == carta;
-        }
-     */
     }
 }
